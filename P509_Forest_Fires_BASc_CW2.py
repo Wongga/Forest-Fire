@@ -200,3 +200,4 @@ for time in range(maxTime):
 visualise(fig1,matrix,maxTime)
 
 plt.savefig(name + '_final.png')
+
