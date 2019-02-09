@@ -1,3 +1,5 @@
+#问题：Is selective deforestation an effective method for combatting forest fires and how can this strategy be used most effectively? 
+
 import pylab as plt
 import matplotlib as mpl
 import scipy as sp
