@@ -1,6 +1,3 @@
-# ******************** IMPORT PACKAGES ******************** #
-# (You can ignore this part...)
-
 import pylab as plt
 import matplotlib as mpl
 import scipy as sp
@@ -9,12 +6,6 @@ import copy as cp
 import time as tm
 
 
-
-# ******************** SET UP THE VISUALISATION ******************** #
-# (You can ignore this part too...)
-
-# This section sorts out the colours in the animation...
-# First, by telling python what colours to use (as rgb values):
 cdict = {
       'red'  :  ( (0.0, 1.0, 1.0),
                   (0.3, 0.0, 0.0),
@@ -33,38 +24,20 @@ cdict = {
             }
 cm = mpl.colors.LinearSegmentedColormap('my_colormap', cdict, 1024)
 
-# ... Then by assigning a colour value to each state:
 empty, tree, fire, charred = range(4)
 
-# Turn on interactive plotting (to animate the simulation):
 plt.ion()
 
-# Create the figure on which to plot
 fig1 = plt.figure(num=1)
 
-# Show the figure (empty at the moment)
-# The .canvas.draw() and .canvas.flush_events() allow for live updating
 fig1.clear()
 plt.show()
 fig1.canvas.draw()
 fig1.canvas.flush_events()
 
 
-
-# ************************ DEFINE FUNCTIONS ************************ #
-# (The first function here will be extremely useful for you, the second one you can ignore.)
-
-
-# The count_states function will count the number of empty, tree, fire and charred cells in the forest.
-# Wherever you want to print the current numbers of each cell type, just add one of these two lines:
-
-# count_states(matrix)
-# current_counts = count_states(matrix)
-
-# [Obviously, you need to remove the #]
-
-# The first of those two versions just prints the counts, ...
-# ... the second will also store the counts as a list.
+count_states(matrix)
+current_counts = count_states(matrix)
 
 def count_states(matrix_):
     
@@ -74,32 +47,23 @@ def count_states(matrix_):
     # This line works out the dimensions of the forest:
     w,h = sp.shape(matrix_)
     
-    # Go through every cell:
     for y in range(h):
         for x in range(w):
 
-            # First check the state of the cell:
             state = matrix_[x,y]
             
-            # Then add to the appropriate state count:
             counts[int(state)] = counts[int(state)] + 1
     
-    # And print the results:
-    
-    print() # This prints an empty row
+    print()
     print("empty: " + str(counts[0]))
     print("tree: " + str(counts[1]))
     print("fire: " + str(counts[2]))
     print("charred: " + str(counts[3]))
-    print() # This prints an empty row
+    print()
     
     # This last line would allow you to work with the counts in Python after running the simulation...
     # ... but if you're not familiar with Python, you can ignore it (or even remove it).
     return list(counts)
-
-
-# This visualise function will draw the forest each time it is called.
-# (You don't need to worry about this.)
 
 def visualise(figure,matrix,time):
     
@@ -125,27 +89,18 @@ def visualise(figure,matrix,time):
     figure.canvas.draw()
     figure.canvas.flush_events()
 
-
-
-# ******************** SET SIMULATION PARAMETERS ******************** #
-# (You may want to make changes in this section.)
-
 # Choose length of simulation:
-maxTime = 50
+maxTime = 100
 
 # Set the size of the region:
-width = 20
-height = 20
+width = 50
+height = 50
 
-# Choose a file name for the initial and final images:
 name = 'forestpic'
-# [If you choose 'forestpic', the files will be...
-# ... 'forestpic_initial.png' and 'forestpic_final.png']
 
 # Choose the density of the forest:
-# [This will be a number between 0 and 1 and represents 
 # ... the probability that each cell will have a tree.]
-ptree = 0.9
+ptree = 0.7
 
 # The next two parameters control the speed of the simulation.
 
@@ -153,13 +108,8 @@ ptree = 0.9
 initial_delay = 2
 
 # And set a minimum time interval (in seconds) between frames:
-# (Bear in mind that the simulation will slow down for larger forests anyway)
 time_between_frames = 0.2
 
-
-
-# ******************** SET INITIAL CONDITIONS ******************** #
-# (You may want to make changes in this section.)
 
 # This line creates an empty grid to represent the forest:
 matrix = sp.zeros([width, height])
@@ -179,28 +129,10 @@ for x in range(width):
         # Pick a random number:
         random = rd.random()
 
-        # Plant a tree with probability ptree:
-        # [This is achieved by generating a random number between...
-        # ... 0 and 1 and comparing this number to ptree.]
         if random < ptree:
             matrix[x,y] = tree
 
-# You can also add in or remove trees manually:
-# e.g.
-
-# Create an empty space:
-matrix[8,10] = empty
-
-# Create a horizontal row with no trees:
-matrix[0:8,14] = empty
-
-# Create a vertical column of trees:
-matrix[6,6:14] = tree
-
-# [Delete these manual additions before starting your experiments.]
-
-
-
+           
 # ******************** THE SIMULATION ******************** #
 
 # Make a copy of the forest matrix...
@@ -259,17 +191,12 @@ for time in range(maxTime):
             # Now we update the cell that we are looking at with the new state:    
             newmatrix[x,y] = state
         
-    # This next line is a bit of a trick.
-    # It switches the new matrix (which we have just recalculated) with the previous one...
-    # This way, 'matrix' will contain the current state of the forest...
-    # ... and 'newmatrix' is ready to be overwritten with the next state again.
+ 
     matrix, newmatrix = newmatrix, matrix
     
     # Finally, apply the time delay:
     tm.sleep(time_between_frames)
 
-# Draw the final frame:
 visualise(fig1,matrix,maxTime)
 
-# Save an image of the final state of the forest:
 plt.savefig(name + '_final.png')
