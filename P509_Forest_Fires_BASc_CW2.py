@@ -1,5 +1,22 @@
 #问题：Is selective deforestation an effective method for combatting forest fires and how can this strategy be used most effectively? 
 
+#77 - vmin vmax是什么
+#108 and 111 - 这个delay有可能做成间接性给visualise 图像吗？
+#179 to 192 - 感觉仅仅是个十字？那斜角的怎么办？ if matrix[(x+dx)%width, (y+dy)%height] == fire: 没有很懂这个code在说什么
+#149 - matrix[rd.randint(0,width-1), rd.randint(0,height-1)] = fire 什么意思？
+
+#if matrix[(x+dx)%width, (y+dy)%height] == fire: 这一段如果用类似的code能不能作为风？比如说random刮风at random 方向，导致 for dx in [-2, 0, 2] or for dy in [-2, 0, 2] 都能catch fire （depending on wind direction) 能怎么写？就是让风直接影响火的蔓延。不知道下面这样会不会对
+#if state == tree and wind:
+#for dx in [-2, 0, 2]:
+#for dy in [-2, 0, 2]:
+#if if matrix[(x+dx)%width, (y+dy)%height] == fire with wind: 
+#可是要怎么写wind的code？
+
+
+#不知道你对这个问题有什么见解，大致上如何能execute this strategy most effectively? 如果加入business 的cost benefit effectiveness可行吗？
+#比如说 Cost due to fire damages, cost to cut down trees, cost to put out fire, budget given etc.
+
+
 import pylab as plt
 import matplotlib as mpl
 import scipy as sp
